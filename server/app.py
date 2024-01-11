@@ -45,6 +45,24 @@ class Newsletters(Resource):
         )
 
         return response
+    
+    def post(self):
+        new_record = Newsletter(
+            title=request.form['title'],
+            body=request.form['body'],
+        )
+
+        db.session.add(new_record)
+        db.session.commit()
+
+        response_dict = new_record.to_dict()
+
+        response = make_response(
+            response_dict,
+            201,
+        )
+
+        return response
 
 api.add_resource(Newsletters, '/newsletters')
 
